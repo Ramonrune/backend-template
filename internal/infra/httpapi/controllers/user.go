@@ -57,6 +57,35 @@ func (cc *UserController) Create(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(user)
 }
 
+func (cc *UserController) Update(c *fiber.Ctx) error {
+
+	var dto UpdateUserRequest
+
+	if err := c.BodyParser(&dto); err != nil {
+		return c.
+			Status(fiber.StatusBadRequest).
+			JSON(fiber.Map{"error": "bad request"})
+	}
+
+	if err := dto.ValidateUpdate(); err != nil {
+		return c.
+			Status(fiber.StatusBadRequest).
+			JSON(fiber.Map{"error": err.Error()})
+	}
+
+	id := c.Params("id")
+
+	user, err := cc.service.Update(id, dto.Name)
+
+	if err != nil {
+		return c.
+			Status(fiber.StatusInternalServerError).
+			JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(user)
+}
+
 func NewUserController(service *user.UserService) *UserController {
 	return &UserController{
 		service: service,
