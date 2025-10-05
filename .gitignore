@@ -1,0 +1,14 @@
+/bin/
+*.exe
+*.out
+*.log
+
+
+vendor/
+*.mod
+*.sum
+
+.DS_Store
+Thumbs.db
+
+.env
