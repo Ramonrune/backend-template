@@ -86,6 +86,21 @@ func (cc *UserController) Update(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(user)
 }
 
+func (cc *UserController) Get(c *fiber.Ctx) error {
+
+	id := c.Params("id")
+
+	user, err := cc.service.GetByID(id)
+
+	if err != nil {
+		return c.
+			Status(fiber.StatusInternalServerError).
+			JSON(fiber.Map{"error": err.Error()})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(user)
+}
+
 func NewUserController(service *user.UserService) *UserController {
 	return &UserController{
 		service: service,

@@ -4,6 +4,8 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
+	"github.com/ramonrune/assina-backend/internal/app/domain/user"
+	"github.com/ramonrune/assina-backend/internal/infra/database"
 	"github.com/ramonrune/assina-backend/internal/infra/httpapi"
 	"github.com/ramonrune/assina-backend/internal/infra/httpapi/controllers"
 	"github.com/ramonrune/assina-backend/internal/infra/httpapi/routers"
@@ -22,6 +24,8 @@ func main() {
 		controllers.Module,
 		routers.Module,
 		httpapi.Module,
+		database.Module,
+		user.Module,
 		fx.Invoke(func(*fasthttp.Server) {}),
 	)
 
